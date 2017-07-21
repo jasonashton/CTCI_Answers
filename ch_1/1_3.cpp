@@ -5,6 +5,10 @@
 //replace all spaces with %20
 //Question 1.3, page 90, hints 53, 118, answer 194
 
+
+//INCOMPLETE
+//=============================================================================
+
 //you're supposed to do it in place
 std::string urlify_not_inplace(std::string str_1){
     std::string output;
@@ -31,7 +35,9 @@ int main(){
     int str_2_len = 13;
     int spaces = (str_2.length() - str_2_len);
 
-    for(int i = str_2.length() - 1; i > spaces - 1; i--){
+    int index = str_2.length();
+
+    for(int i = - 1; i >= 0; i--){
         std::cout << str_2.at(i - spaces);
         
         if(str_2.at(i - spaces) == ' '){
