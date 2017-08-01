@@ -1,58 +1,39 @@
-#include <iostream>
-#include <vector>
+#include "../stdc++.h"
 
-//URLify
-//replace all spaces with %20
-//Question 1.3, page 90, hints 53, 118, answer 194
+/*
 
+URLify: Write a method to replace all spaces in a string with '%20: 
+You may assume that the string has sufficient space at the end to 
+hold the additional characters, and that you are given the "true" 
+length of the string. (Note: If implementing in Java, please use a 
+character array so that you can perform this operation in place.)
+EXAMPLE
+Input: "Mr John Smith " J 13 Output: "Mr%20J ohn%20Smith" Hints: #53, #7 78
+*/
 
-//INCOMPLETE
-//=============================================================================
+using namespace std;
 
-//you're supposed to do it in place
-std::string urlify_not_inplace(std::string str_1){
-    std::string output;
+//my answer, n
+string urlify(string str, int true_len){
+	int offset = str.size() - true_len;
 
-    for(std::string::iterator i = str_1.begin(); i != str_1.end(); i++){
-        if((*i) == ' '){
-           output += "%20"; 
-        }else{
-            output += (*i);
-        }
-    }
-
-    return output;
+	//from end to offsetf
+	for(auto i = (str.end() - offset - 1); i >= str.begin(); i--){
+		cout << *i;
+		if(*i == ' '){ //this  is a space
+			*(i + offset - 0) = '0';
+			*(i + offset - 1) = '2';
+			*(i + offset - 2) = '%';
+			offset -= 2;
+		}else{
+			*(i + offset) = *i;
+		}
+	}
+	cout << "\n\n";
+	cout << str << "\n";
+	return str;
 }
 
-
-
-int main(){
-    std::string str_1 = "http:// make me a url . com";
-    std::cout << urlify_not_inplace(str_1) << std::endl;
-
-    //correctly
-    std::string str_2 = "Mr John Smith    ";
-    int str_2_len = 13;
-    int spaces = (str_2.length() - str_2_len);
-
-    int index = str_2.length();
-
-    for(int i = - 1; i >= 0; i--){
-        std::cout << str_2.at(i - spaces);
-        
-        if(str_2.at(i - spaces) == ' '){
-            str_2.at(i-1) = '0';
-            str_2.at(i-2) = '2';
-            str_2.at(i-3) = '%';
-            i -=3;
-        }else{
-            str_2.at(i) = str_2.at(i - spaces);
-        }
-        
-    }
-    std::cout << std::endl;
-
-    std::cout << str_2 << std::endl;
-
-    return 0;
+int main() {
+	urlify("Mr John Smith    ", 13);
 }

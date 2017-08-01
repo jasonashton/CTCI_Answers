@@ -1,45 +1,75 @@
-#include <iostream>
-#include <vector>
-#include <algorithm>
+#include "../stdc++.h"
 
-//1.2 Check Permutation: Given two strings, write a method to decide if one is a permutation of the other
-//Page 90, Hints 1, 84, 122, 131, Answer 193
+/*
+Check Permutation: Given two strings, write a method to decide if one 
+is a permutation of the other.
+Hints: #7, #84, #722, #737
+*/
 
-//My answer, O(N) O(1)
-//similar to solution 2
-bool is_permutation(std::string str_1, std::string str_2){
+using namespace std;
 
-    std::vector<int> set_1(128);
-    std::vector<int> set_2(128);
 
-    for(int i = 0; i < str_1.size(); i++){
-        int val_1 = (int) str_1[i];
-        set_1.at(val_1) += 1;
-    }
+//My answer, nlogn
+bool perm_one(string str_1, string str_2){
+	
 
-    for(int j = 0; j < str_2.size(); j++){
-        int val_2 = (int) str_2[j];
-        set_2.at(val_2) += 1;
-    }
+	sort(str_1.begin(), str_1.end());
+	sort(str_2.begin(), str_2.end());
 
-    return (set_1 == set_2);
+	if(str_1 == str_2){
+		cout << "Equal: " << str_1 << " " << str_2 << "\n";
+		return true;
+	}
+	cout << "Not equal: " << str_1 << " " << str_2 << "\n";
+	return false;
 }
 
-//inspired by book solution 1
-bool is_permutation_two(std::string str_1, std::string str_2){
-    std::sort(str_1.begin(), str_1.end());
-    std::sort(str_2.begin(), str_2.end());
-    return (str_1 == str_2);
+//another answer, o(n)
+bool perm_two(string str_1, string str_2){
+
+	map<char, int> map_1;
+	map<char, int> map_2;
+
+	if(str_1.size() != str_2.size()){
+		cout << "Uneven sizes.\n";
+		return false;
+	}
+
+	auto it_1 = str_1.begin();
+	auto it_2 = str_2.begin();
+
+	while((it_1 < str_1.end()) && (it_2 < str_2.end())){
+		auto map_it_1 = map_1.find(*it_1);
+		auto map_it_2 = map_2.find(*it_2);
+		
+		if(map_it_1 != map_1.end()){ //already there
+			map_it_1->second++;
+		}else{
+			map_1.insert(make_pair(*it_1, 1)); //insert it
+		}
+
+		if(map_it_2 != map_2.end()){ //already there
+			map_it_2->second++;
+		}else{
+			map_2.insert(make_pair(*it_2, 1));
+		}
+
+		it_1++;
+		it_2++;
+	}
+	if(map_1 == map_2){
+		cout << "Equal: " << str_1 << " " << str_2 << "\n";
+		return true;
+	}
+	cout << "Not equal: " << str_1 << " " << str_2 << "\n";
+	return false;
 }
+int main() {
+	std::string str_1 = "jason";
+	std::string str_2 = "nojas";
+	std::string str_3 = "hola";
 
-int main(){
-    std::string str_1 = "the ears";
-    std::string str_2 = "hear set";
-    std::string str_3 = "nothing";
-
-    std::cout << "string one equals string 2: " << is_permutation_two(str_1, str_2) << std::endl;
-    std::cout << "string two equals string 3: " << is_permutation_two(str_2, str_3) << std::endl;
-    
-
-    return 0;
+	perm_two(str_1, str_2);
+	perm_two(str_1, str_3);
+	return 0;
 }

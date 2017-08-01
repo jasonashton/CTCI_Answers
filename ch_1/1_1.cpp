@@ -1,50 +1,35 @@
-#include <iostream>
-#include <vector>
+#include "../stdc++.h"
 
-//Implement an algorithm to determine if a string has all unique characters. What if you cannot use additional data
-//structures? Page 90, Hints 44, 117, 132, Answer 192
+/*
+Is Unique: Implement an algorithm to determine if a string has all unique 
+characters. What if you cannot use additional data structures?
+Hints: #44, # 777, # 732
+*/
 
-//O(N!)
-bool unique_try_one(std::string the_string){
-    std::cout << "Running on: " << the_string << std::endl;
+using namespace std;
 
-    for(int i = 0; i < the_string.size(); i++){
-        for(int j = i+1; j < the_string.size(); j++){
-            if( the_string[i] == the_string[j]){
-                std::cout << "Not unique." << std::endl;
-                return false;
-            }
-        }
-    }
+//my answer, nlogn
+bool is_unique(string to_check){
+	sort(to_check.begin(), to_check.end());
 
-    std::cout << "Is unique!" << std::endl;
-    return true;
+	int len = to_check.size();
+
+	for(int i = 1; i < len - 1; i++){
+		if((to_check[i-1] == to_check[i]) ||
+			(to_check[i+1] == to_check [i])){
+			cout << to_check[i];
+			return false;
+		}
+			
+	}
+	return true;
 }
 
-//O(n), O(1)
-bool unique_answer(std::string the_string){
 
-    std::vector<bool> charset(128);
-    for(int i = 0; i < the_string.length(); i++){
-        if( charset.at((int) the_string[i]) ){
-            std::cout << "Not unique." << std::endl;
-            return false;
-        }
-        charset.at((int) the_string[i]) = true;
-    }
+int main() {
+	string not_unique {"are all these characters unique"};
+	string unique {"butiam"};
 
-    std::cout << "Is unique!" << std::endl;
-    return true;
-}
-
-int main(){
-    std::string not_unique = "Some random string that isn't unique";
-    std::string is_unique = "I am";
-
-    unique_answer(not_unique);
-    unique_answer(is_unique);
-
-    std::cout << "Finished." << std::endl;
-
-    return 0;
+	cout << is_unique(not_unique) << "\n";
+	cout << is_unique(unique) << "\n";
 }
